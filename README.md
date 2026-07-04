@@ -1,5 +1,8 @@
 # K8s Games
 
+> Unofficial Korean distribution work is tracked in `README.ko.md` and `NOTICE-KO.md`.
+> Modified distribution files retain the original Apache-2.0 license and attribution.
+
 Learn Kubernetes by playing. Deploy pods, fix CrashLoopBackOff, type real kubectl commands — all in a 3D sim that runs in your browser.
 
 **[Play Now at k8sgames.com](https://k8sgames.com)** | **[K8s Draw — 3D Architecture Diagrams](https://k8sgames.com/draw)**
