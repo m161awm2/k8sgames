@@ -1,104 +1,81 @@
-# K8s Games
+# K8s게임 한국어 패치버전
 
-> Unofficial Korean distribution work is tracked in `README.ko.md` and `NOTICE-KO.md`.
-> Modified distribution files retain the original Apache-2.0 license and attribution.
+Kubernetes를 게임처럼 배울 수 있는 **K8s Games**의 비공식 한국어 패치버전입니다. Pod를 배포하고, CrashLoopBackOff 같은 장애를 진단하고, 실제와 비슷한 `kubectl` 명령을 입력하면서 클러스터 운영 감각을 익힐 수 있습니다.
 
-Learn Kubernetes by playing. Deploy pods, fix CrashLoopBackOff, type real kubectl commands — all in a 3D sim that runs in your browser.
+> 이 저장소는 공식 K8s Games가 아닙니다. 원작자의 Apache-2.0 라이선스 프로젝트를 기반으로 한국어 번역과 배포 편의 패치를 더한 비공식 배포판입니다.
 
-**[Play Now at k8sgames.com](https://k8sgames.com)** | **[K8s Draw — 3D Architecture Diagrams](https://k8sgames.com/draw)**
+## 바로 실행
 
-![K8s Games — 3D Kubernetes cluster simulation in the browser](screenshot.png)
+- 한국어 패치버전: https://linux.m161awm.kr/k8sgames/
+- K8s Draw 한국어판: https://linux.m161awm.kr/k8sgames/draw.html
+- 원작자 저장소: https://github.com/rohitg00/k8sgames
+- 번역자 GitHub: https://github.com/m161awm2
 
-## Get Started
+![K8s Games - 3D Kubernetes cluster simulation in the browser](screenshot.png)
 
-Visit **[k8sgames.com](https://k8sgames.com)** and pick a mode. No install, no signup, no build step.
+## 로컬 실행
 
-Just here to diagram? Go straight to **[k8sgames.com/draw](https://k8sgames.com/draw)** — drag K8s resources onto a 3D canvas, draw connections, export YAML or PNG, and share via URL.
-
-Or run locally:
+별도 빌드가 필요 없는 정적 웹앱입니다.
 
 ```bash
-git clone https://github.com/rohitg00/k8sgames.git
+git clone https://github.com/m161awm2/k8sgames.git
 cd k8sgames
+git switch korean-distribution
 python3 -m http.server 8080
-# Open http://localhost:8080
 ```
 
-## How to Play
+브라우저에서 `http://localhost:8080`을 열면 됩니다.
 
-1. Pick a game mode from the main menu
-2. Click resources from the left palette to place them in your cluster
-3. Drag resources to reposition them anywhere
-4. Click any resource to inspect it (status, YAML, kubectl describe)
-5. Right-click for actions (Scale, Delete, Logs, Restart)
-6. Press `/` to open the kubectl command bar
-7. Handle incidents as they appear — diagnose and fix like a real SRE
-8. Press `?` anytime for help
+## 한글화 범위
 
-## Game Modes
+- 메인 메뉴와 주요 버튼
+- 캠페인 챕터명
+- 캠페인 레벨 제목 전체
+- 초반 캠페인 설명, 목표, 힌트
+- 챌린지 제목
+- K8s Draw 상단 도구막대 일부
+- 한국어 폰트 및 GitHub Pages 경로 패치
 
-| Mode | What You Do |
-|------|-------------|
-| **Campaign** | 20 levels across 5 chapters. Learn pods, deployments, networking, storage, and production K8s |
-| **Chaos** | Endless survival. Incidents escalate until your cluster breaks. How long can you last? |
-| **Sandbox** | Free build. Design any cluster, get scored 0-100 by the Architecture Advisor |
-| **Challenges** | 10 timed scenarios. Deploy apps, fix outages, race the clock |
+`Pod`, `Deployment`, `CrashLoopBackOff`, `kubectl` 출력 같은 Kubernetes 고유 용어와 명령어는 학습 효과를 위해 상당 부분 원문을 유지합니다.
 
-### K8s Draw (`/draw`)
+## 게임 모드
 
-A 3D Kubernetes architecture whiteboard. Like Excalidraw but for K8s.
+| 모드 | 설명 |
+|------|------|
+| 캠페인 | 5개 챕터, 20개 레벨로 Kubernetes 기본부터 프로덕션 운영까지 학습 |
+| 카오스 모드 | 점점 강해지는 장애를 버티는 생존형 SRE 훈련 |
+| 샌드박스 | 자유롭게 클러스터를 설계하고 아키텍처 점수를 확인 |
+| 챌린지 | 시간 제한 시나리오에서 앱 배포와 장애 복구 수행 |
 
-- Drag-drop 21 resource types onto a 3D canvas
-- Draw connection lines between resources
-- Double-click to rename any resource
-- Auto-layout organizes by tier (Nodes, Workloads, Networking, Storage, RBAC)
-- Export as YAML (with correct apiVersions) or PNG
-- Share diagrams via URL — one-click copy, open anywhere
-- Edit properties: name, namespace, labels, replicas
-- Right-click to delete, `Del` key for selected
+## K8s Draw
 
-No game logic, no incidents, no scoring — just diagramming.
+Kubernetes 아키텍처를 3D로 그리는 다이어그램 도구입니다.
 
-## Controls
+- K8s 리소스를 3D 캔버스에 배치
+- 리소스 간 연결선 작성
+- 리소스 이름, namespace, label, replica 편집
+- YAML 또는 PNG로 내보내기
+- URL로 다이어그램 공유
 
-| Input | Action |
-|-------|--------|
-| `/` | kubectl command bar |
-| `?` | Help / How to play |
-| `Space` | Pause / Resume |
-| `M` | Metrics dashboard |
-| `Esc` | Back to menu |
-| `1-9` | Quick-select resource |
-| Left-click | Select resource |
-| Left-drag | Move resource or rotate camera |
-| Right-click | Context menu |
-| Right-drag | Pan |
-| Scroll | Zoom |
+## 조작법
 
-Bottom toolbar: **Auto-Align** (K8s architecture layout) | **Reset View** | **YAML** (export cluster) | **Help**
+| 입력 | 동작 |
+|------|------|
+| `/` | kubectl 명령창 열기 |
+| `?` | 도움말 |
+| `Space` | 일시정지 / 재개 |
+| `M` | 메트릭 대시보드 |
+| `Esc` | 메뉴로 돌아가기 |
+| `1-9` | 리소스 빠른 선택 |
+| 왼쪽 클릭 | 리소스 선택 |
+| 오른쪽 클릭 | 컨텍스트 메뉴 |
+| 스크롤 | 확대 / 축소 |
 
-## What's In It
+## 출처와 라이선스
 
-**25 K8s resources** — Pod, Deployment, ReplicaSet, StatefulSet, DaemonSet, Job, CronJob, Service, Ingress, NetworkPolicy, ConfigMap, Secret, PVC, PV, StorageClass, Node, Namespace, HPA, ResourceQuota, PodDisruptionBudget, ServiceAccount, Role, ClusterRole, RoleBinding, ClusterRoleBinding. Each has a unique 3D shape, color, and real K8s behavior.
+- 원작자: Rohit Ghumare
+- 원본 저장소: https://github.com/rohitg00/k8sgames
+- 한국어 번역/패치: https://github.com/m161awm2
+- 라이선스: Apache License 2.0
 
-**29 incidents** — OOMKilled, CrashLoopBackOff, ImagePullBackOff, node NotReady, DNS failures, PVC pending, API throttling, rollout stuck, certificate expiry, HPA flapping, and more. Investigate with kubectl describe/logs, then fix.
-
-**kubectl command bar** — type real commands: `get pods`, `describe deployment nginx`, `scale deployment nginx --replicas=3`, `logs pod-1`, `rollout status`, `drain node-1`. Tab completion included.
-
-**Visual connections** — animated lines show ownership chains (Deployment -> ReplicaSet -> Pod) and network routing (Service -> Pods) based on label selectors. Place a Service and pick which Deployment it connects to.
-
-**Edit resources** — click Edit on any resource to modify labels, replicas, selectors, and service types. Quick-connect buttons let you wire a Service to an existing Deployment in one click.
-
-**Architecture Advisor** — scores your cluster design across HA, security, scalability, cost, and 6 other categories.
-
-**40 achievements** and a 30-level XP system from Novice to CKA-ready.
-
-**RBAC simulation** — ServiceAccounts, Roles, ClusterRoles, RoleBindings, and ClusterRoleBindings with real rule definitions and wildcard detection.
-
-## Tech
-
-Three.js r152 + Tailwind CSS CDN + vanilla ES6 modules. No build step, no dependencies, no bundler. ~50K lines across 90+ files.
-
-## License
-
-Apache-2.0
+Apache-2.0 라이선스 전문은 `LICENSE` 파일에 포함되어 있습니다. 한국어 배포판 변경 고지는 `NOTICE-KO.md`를 참고하세요.
