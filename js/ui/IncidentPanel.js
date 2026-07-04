@@ -1,5 +1,36 @@
 import { INCIDENT_DEFS } from '../data/IncidentDefs.js';
 
+const STEP_HINT_KO = {
+  'Check previous container logs for crash reason': '이전 컨테이너 로그에서 크래시 원인을 확인',
+  'Look at Events section for restart count and reasons': 'Events 섹션에서 재시작 횟수와 원인 확인',
+  'Check cluster events for this Pod': '이 Pod와 관련된 클러스터 이벤트 확인',
+  'Check the image name and pull errors in Events': 'Events에서 이미지 이름과 pull 오류 확인',
+  'Verify the image reference': '이미지 참조가 올바른지 확인',
+  'Look for OOMKilled in Last State': 'Last State에서 OOMKilled 여부 확인',
+  'Check current memory usage': '현재 메모리 사용량 확인',
+  'Review resource limits': '리소스 limit 설정 검토',
+  'Check eviction reason in Status': 'Status에서 eviction 원인 확인',
+  'Check node conditions for resource pressure': 'Node condition에서 리소스 압박 상태 확인',
+  'Review node resource usage': 'Node 리소스 사용량 확인',
+  'Check readiness probe configuration and failure messages': 'readiness probe 설정과 실패 메시지 확인',
+  'Look for application startup issues': '애플리케이션 시작 문제 확인',
+  'Check if Pod is in Service endpoints': 'Pod가 Service endpoint에 포함되어 있는지 확인',
+  'Check for finalizers preventing deletion': '삭제를 막는 finalizer 확인',
+  'List finalizers': 'finalizer 목록 확인',
+  'Check conditions: MemoryPressure, DiskPressure, PIDPressure': 'MemoryPressure, DiskPressure, PIDPressure condition 확인',
+  'List all Pods on this node': '이 Node에 있는 모든 Pod 확인',
+  'Check node events': 'Node 이벤트 확인',
+  'Check DiskPressure condition': 'DiskPressure condition 확인',
+  'Find large or old Pods': '용량이 크거나 오래된 Pod 찾기',
+  'Check node memory usage percentage': 'Node 메모리 사용률 확인',
+  'Find highest memory consumers': '메모리를 많이 쓰는 Pod 찾기',
+  'Check PIDPressure condition': 'PIDPressure condition 확인',
+  'List Pods on the affected node': '영향받은 Node의 Pod 목록 확인',
+  'Check if endpoints list is empty': 'endpoint 목록이 비어 있는지 확인',
+  'Verify selector matches Pod labels': 'selector가 Pod label과 일치하는지 확인',
+  'Check Pod labels match Service selector': 'Pod label이 Service selector와 맞는지 확인',
+};
+
 const SEVERITY_CONFIG = {
   critical: { icon: '\u26a0', color: 'red', bg: 'bg-red-500/10', border: 'border-red-500/20', text: 'text-red-400' },
   warning: { icon: '\u26a0', color: 'yellow', bg: 'bg-yellow-500/10', border: 'border-yellow-500/20', text: 'text-yellow-400' },
@@ -10,7 +41,7 @@ const INVESTIGATION_STEPS = {};
 for (const def of INCIDENT_DEFS) {
   if (def.investigationSteps && def.investigationSteps.length > 0) {
     INVESTIGATION_STEPS[def.name] = def.investigationSteps.map(step => ({
-      label: step.hint,
+      label: STEP_HINT_KO[step.hint] || step.hint,
       cmd: step.command.replace('<pod>', '{name}').replace('<node>', '{name}').replace('<service>', '{name}').replace('<policy>', '{name}').replace('<ingress>', '{name}').replace('<namespace>', '{name}'),
     }));
   }
@@ -49,7 +80,7 @@ export class IncidentPanel {
             <svg class="w-4 h-4 text-red-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L4.082 16.5c-.77.833.192 2.5 1.732 2.5z"/>
             </svg>
-            <span class="text-white/90 text-sm font-semibold">Incidents</span>
+            <span class="text-white/90 text-sm font-semibold">Incident</span>
             <span id="incident-count" class="text-xs text-white/30 font-mono">0</span>
           </div>
           <button id="incident-close" class="p-1 text-white/30 hover:text-white/60 transition-colors">
@@ -60,13 +91,13 @@ export class IncidentPanel {
         </div>
 
         <div class="flex border-b border-white/5">
-          <button data-filter="active" class="flex-1 px-3 py-2 text-xs text-sky-400 border-b-2 border-sky-400 font-medium transition-colors">Active</button>
-          <button data-filter="resolved" class="flex-1 px-3 py-2 text-xs text-white/40 border-b-2 border-transparent hover:text-white/60 transition-colors">Resolved</button>
-          <button data-filter="all" class="flex-1 px-3 py-2 text-xs text-white/40 border-b-2 border-transparent hover:text-white/60 transition-colors">All</button>
+          <button data-filter="active" class="flex-1 px-3 py-2 text-xs text-sky-400 border-b-2 border-sky-400 font-medium transition-colors">진행 중</button>
+          <button data-filter="resolved" class="flex-1 px-3 py-2 text-xs text-white/40 border-b-2 border-transparent hover:text-white/60 transition-colors">해결됨</button>
+          <button data-filter="all" class="flex-1 px-3 py-2 text-xs text-white/40 border-b-2 border-transparent hover:text-white/60 transition-colors">전체</button>
         </div>
 
         <div id="incident-list" class="flex-1 overflow-y-auto scrollbar-thin p-3 space-y-2">
-          <div class="text-white/20 text-sm text-center mt-8">No incidents reported</div>
+          <div class="text-white/20 text-sm text-center mt-8">보고된 incident가 없습니다</div>
         </div>
       </div>
     `;
@@ -106,7 +137,7 @@ export class IncidentPanel {
       severity: data.severity || 'warning',
       resource: data.resource || data.target || 'unknown',
       resourceUid: data.uid,
-      message: data.message || data.description || 'An incident occurred',
+      message: data.message || data.description || 'Incident가 발생했습니다',
       timestamp: Date.now(),
       status: 'active',
       resolvedAt: null,
@@ -165,9 +196,9 @@ export class IncidentPanel {
   }
 
   _emptyMessage() {
-    if (this.filter === 'active') return 'No active incidents';
-    if (this.filter === 'resolved') return 'No resolved incidents';
-    return 'No incidents recorded';
+    if (this.filter === 'active') return '진행 중인 incident가 없습니다';
+    if (this.filter === 'resolved') return '해결된 incident가 없습니다';
+    return '기록된 incident가 없습니다';
   }
 
   _getFilteredIncidents() {
@@ -221,8 +252,8 @@ export class IncidentPanel {
           ${incident.expanded && steps.length > 0 ? `
             <div class="mt-2 pt-2 border-t border-white/5">
               <div class="flex items-center justify-between mb-1.5">
-                <div class="text-white/30 text-[10px] uppercase tracking-wider">Investigation</div>
-                ${incident.status === 'active' ? `<div class="text-[10px] font-mono ${completedCount >= this._requiredSteps ? 'text-green-400' : 'text-white/30'}">${completedCount}/${steps.length} investigated</div>` : ''}
+                <div class="text-white/30 text-[10px] uppercase tracking-wider">조사</div>
+                ${incident.status === 'active' ? `<div class="text-[10px] font-mono ${completedCount >= this._requiredSteps ? 'text-green-400' : 'text-white/30'}">${completedCount}/${steps.length} 확인됨</div>` : ''}
               </div>
               <div class="space-y-1">
                 ${steps.map((step, idx) => {
@@ -231,7 +262,7 @@ export class IncidentPanel {
                   return `
                     <div class="flex items-center gap-2 group">
                       <span class="text-[11px] w-4 text-center ${done ? 'text-green-400' : 'text-white/15'}">${done ? '\u2713' : '\u25CB'}</span>
-                      <button class="flex-1 text-left px-2 py-1 text-[11px] font-mono ${done ? 'text-green-400/60 bg-green-400/5' : 'text-white/40 hover:text-white/60 bg-white/5 hover:bg-white/10'} rounded transition-colors run-cmd" data-cmd="${this._escapeHTML(cmd)}" title="Click to copy to command bar">
+                      <button class="flex-1 text-left px-2 py-1 text-[11px] font-mono ${done ? 'text-green-400/60 bg-green-400/5' : 'text-white/40 hover:text-white/60 bg-white/5 hover:bg-white/10'} rounded transition-colors run-cmd" data-cmd="${this._escapeHTML(cmd)}" title="클릭하면 명령창에 복사됩니다">
                         ${this._escapeHTML(step.label)}
                       </button>
                     </div>
@@ -244,22 +275,22 @@ export class IncidentPanel {
           <div class="flex items-center gap-2 mt-2">
             ${steps.length > 0 ? `
               <button class="toggle-expand text-[10px] text-white/30 hover:text-white/50 transition-colors">
-                ${incident.expanded ? 'Hide steps' : 'Investigate'}
+                ${incident.expanded ? '단계 숨기기' : '조사하기'}
               </button>
             ` : ''}
             ${incident.status === 'active' ? (
               canResolve ? `
                 <button class="resolve-btn ml-auto px-2 py-0.5 text-[10px] text-green-400 hover:bg-green-400/10 rounded transition-colors">
-                  Resolve
+                  해결
                 </button>
               ` : `
-                <span class="ml-auto flex items-center gap-1 text-[10px] text-white/20" title="Run investigation commands first">
+                <span class="ml-auto flex items-center gap-1 text-[10px] text-white/20" title="조사 명령을 먼저 실행하세요">
                   <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/></svg>
-                  Investigate first
+                  먼저 조사 필요
                 </span>
               `
             ) : `
-              <span class="ml-auto text-[10px] text-green-400/50">Resolved</span>
+              <span class="ml-auto text-[10px] text-green-400/50">해결됨</span>
             `}
           </div>
         </div>

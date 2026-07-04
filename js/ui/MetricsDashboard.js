@@ -43,11 +43,11 @@ export class MetricsDashboard {
       <div class="backdrop-blur-xl bg-white/5 border-t border-white/10 shadow-2xl" style="height: 240px;">
         <div class="flex items-center justify-between px-4 py-2 border-b border-white/5">
           <div class="flex items-center gap-3">
-            <span class="text-white/40 text-xs font-mono">Metrics</span>
-            <span id="metrics-scope" class="text-white/20 text-xs">Cluster-wide</span>
+            <span class="text-white/40 text-xs font-mono">메트릭</span>
+            <span id="metrics-scope" class="text-white/20 text-xs">클러스터 전체</span>
           </div>
           <div class="flex items-center gap-2">
-            <span class="text-white/20 text-xs">Press M to toggle</span>
+            <span class="text-white/20 text-xs">M 키로 열고 닫기</span>
             <button id="metrics-close" class="p-1 text-white/30 hover:text-white/60 transition-colors">
               <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
@@ -62,17 +62,17 @@ export class MetricsDashboard {
             <canvas id="metrics-canvas-cpu" class="w-full h-full rounded-lg bg-white/5 border border-white/5"></canvas>
           </div>
           <div class="relative">
-            <div class="absolute top-0 left-0 text-[10px] text-white/30 z-10 px-1">Memory %</div>
+            <div class="absolute top-0 left-0 text-[10px] text-white/30 z-10 px-1">메모리 %</div>
             <div class="absolute top-0 right-0 text-[10px] font-mono z-10 px-1" id="metrics-mem-val" style="color: ${CHART_COLORS.memory.line}">0%</div>
             <canvas id="metrics-canvas-memory" class="w-full h-full rounded-lg bg-white/5 border border-white/5"></canvas>
           </div>
           <div class="relative">
-            <div class="absolute top-0 left-0 text-[10px] text-white/30 z-10 px-1">Network KB/s</div>
+            <div class="absolute top-0 left-0 text-[10px] text-white/30 z-10 px-1">네트워크 KB/s</div>
             <div class="absolute top-0 right-0 text-[10px] font-mono z-10 px-1" id="metrics-net-val" style="color: ${CHART_COLORS.network.line}">0</div>
             <canvas id="metrics-canvas-network" class="w-full h-full rounded-lg bg-white/5 border border-white/5"></canvas>
           </div>
           <div class="relative">
-            <div class="absolute top-0 left-0 text-[10px] text-white/30 z-10 px-1">Pod Count</div>
+            <div class="absolute top-0 left-0 text-[10px] text-white/30 z-10 px-1">Pod 수</div>
             <div class="absolute top-0 right-0 text-[10px] font-mono z-10 px-1" id="metrics-pods-val" style="color: ${CHART_COLORS.pods.line}">0</div>
             <canvas id="metrics-canvas-pods" class="w-full h-full rounded-lg bg-white/5 border border-white/5"></canvas>
           </div>
@@ -116,7 +116,7 @@ export class MetricsDashboard {
 
   _onResourceDeselect() {
     this.selectedResource = null;
-    document.getElementById('metrics-scope').textContent = 'Cluster-wide';
+    document.getElementById('metrics-scope').textContent = '클러스터 전체';
   }
 
   _onKeydown(e) {
@@ -180,8 +180,8 @@ export class MetricsDashboard {
 
   _onResourceSelect(data) {
     this.selectedResource = window.game?.cluster?.getResource(data.uid) || null;
-    const name = this.selectedResource?.metadata?.name || 'Unknown';
-    document.getElementById('metrics-scope').textContent = this.selectedResource ? `Resource: ${name}` : 'Cluster-wide';
+    const name = this.selectedResource?.metadata?.name || '알 수 없음';
+    document.getElementById('metrics-scope').textContent = this.selectedResource ? `리소스: ${name}` : '클러스터 전체';
   }
 
   _onResize() {

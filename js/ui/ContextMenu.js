@@ -1,15 +1,15 @@
 const ACTION_MAP = {
   Pod: [
     { group: 'inspect', actions: [
-      { label: 'View Logs', event: 'pod:logs', shortcut: 'L' },
+      { label: '로그 보기', event: 'pod:logs', shortcut: 'L' },
       { label: 'Describe', event: 'resource:describe', shortcut: 'D' },
     ]},
     { group: 'manage', actions: [
-      { label: 'Exec Into', event: 'pod:exec', shortcut: 'E' },
-      { label: 'Port Forward', event: 'pod:port-forward', shortcut: 'F' },
+      { label: '컨테이너 접속', event: 'pod:exec', shortcut: 'E' },
+      { label: '포트 포워딩', event: 'pod:port-forward', shortcut: 'F' },
     ]},
     { group: 'danger', actions: [
-      { label: 'Delete', event: 'resource:delete', shortcut: 'Del', danger: true },
+      { label: '삭제', event: 'resource:delete', shortcut: 'Del', danger: true },
     ]},
   ],
   Deployment: [
@@ -17,32 +17,32 @@ const ACTION_MAP = {
       { label: 'Describe', event: 'resource:describe', shortcut: 'D' },
     ]},
     { group: 'manage', actions: [
-      { label: 'Scale', event: 'deployment:scale', shortcut: 'S' },
-      { label: 'Restart', event: 'deployment:restart', shortcut: 'R' },
-      { label: 'Rollback', event: 'deployment:rollback', shortcut: 'B' },
+      { label: '스케일', event: 'deployment:scale', shortcut: 'S' },
+      { label: '재시작', event: 'deployment:restart', shortcut: 'R' },
+      { label: '롤백', event: 'deployment:rollback', shortcut: 'B' },
     ]},
     { group: 'danger', actions: [
-      { label: 'Delete', event: 'resource:delete', shortcut: 'Del', danger: true },
+      { label: '삭제', event: 'resource:delete', shortcut: 'Del', danger: true },
     ]},
   ],
   Service: [
     { group: 'inspect', actions: [
       { label: 'Describe', event: 'resource:describe', shortcut: 'D' },
-      { label: 'View Endpoints', event: 'service:endpoints', shortcut: 'E' },
+      { label: 'Endpoint 보기', event: 'service:endpoints', shortcut: 'E' },
     ]},
     { group: 'danger', actions: [
-      { label: 'Delete', event: 'resource:delete', shortcut: 'Del', danger: true },
+      { label: '삭제', event: 'resource:delete', shortcut: 'Del', danger: true },
     ]},
   ],
   Node: [
     { group: 'inspect', actions: [
       { label: 'Describe', event: 'resource:describe', shortcut: 'D' },
-      { label: 'Top', event: 'node:top', shortcut: 'T' },
+      { label: '사용량 보기', event: 'node:top', shortcut: 'T' },
     ]},
     { group: 'manage', actions: [
-      { label: 'Cordon', event: 'node:cordon', shortcut: 'C' },
-      { label: 'Uncordon', event: 'node:uncordon', shortcut: 'U' },
-      { label: 'Drain', event: 'node:drain', shortcut: 'N' },
+      { label: '스케줄 금지', event: 'node:cordon', shortcut: 'C' },
+      { label: '스케줄 허용', event: 'node:uncordon', shortcut: 'U' },
+      { label: 'Drain 실행', event: 'node:drain', shortcut: 'N' },
     ]},
   ],
 };
@@ -52,7 +52,7 @@ const DEFAULT_ACTIONS = [
     { label: 'Describe', event: 'resource:describe', shortcut: 'D' },
   ]},
   { group: 'danger', actions: [
-    { label: 'Delete', event: 'resource:delete', shortcut: 'Del', danger: true },
+    { label: '삭제', event: 'resource:delete', shortcut: 'Del', danger: true },
   ]},
 ];
 

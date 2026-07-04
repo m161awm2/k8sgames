@@ -25,12 +25,12 @@ export class InspectorPanel {
           <div class="flex items-center gap-2 min-w-0">
             <div id="inspector-icon" class="w-8 h-8 rounded-lg bg-sky-500/20 flex items-center justify-center text-sky-400 text-sm font-bold shrink-0">P</div>
             <div class="min-w-0">
-              <div id="inspector-name" class="text-white/90 text-sm font-semibold truncate">No Selection</div>
-              <div id="inspector-subtitle" class="text-white/40 text-xs truncate">Select a resource</div>
+              <div id="inspector-name" class="text-white/90 text-sm font-semibold truncate">선택 없음</div>
+              <div id="inspector-subtitle" class="text-white/40 text-xs truncate">리소스를 선택하세요</div>
             </div>
           </div>
           <div class="flex items-center gap-1 shrink-0">
-            <button id="inspector-edit" class="hidden px-2 py-1 text-xs text-sky-400 hover:bg-sky-400/10 rounded transition-colors">Edit</button>
+            <button id="inspector-edit" class="hidden px-2 py-1 text-xs text-sky-400 hover:bg-sky-400/10 rounded transition-colors">편집</button>
             <button id="inspector-close" class="p-1 text-white/30 hover:text-white/60 transition-colors">
               <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
@@ -40,14 +40,14 @@ export class InspectorPanel {
         </div>
 
         <div id="inspector-tabs" class="flex border-b border-white/5 px-2">
-          <button data-tab="overview" class="px-3 py-2 text-xs text-sky-400 border-b-2 border-sky-400 font-medium transition-colors">Overview</button>
+          <button data-tab="overview" class="px-3 py-2 text-xs text-sky-400 border-b-2 border-sky-400 font-medium transition-colors">개요</button>
           <button data-tab="yaml" class="px-3 py-2 text-xs text-white/40 border-b-2 border-transparent hover:text-white/60 transition-colors">YAML</button>
-          <button data-tab="events" class="px-3 py-2 text-xs text-white/40 border-b-2 border-transparent hover:text-white/60 transition-colors">Events</button>
+          <button data-tab="events" class="px-3 py-2 text-xs text-white/40 border-b-2 border-transparent hover:text-white/60 transition-colors">이벤트</button>
           <button data-tab="describe" class="px-3 py-2 text-xs text-white/40 border-b-2 border-transparent hover:text-white/60 transition-colors">Describe</button>
         </div>
 
         <div id="inspector-body" class="flex-1 overflow-y-auto scrollbar-thin p-4">
-          <div class="text-white/30 text-sm text-center mt-8">Select a resource to inspect</div>
+          <div class="text-white/30 text-sm text-center mt-8">확인할 리소스를 선택하세요</div>
         </div>
       </div>
     `;
@@ -146,7 +146,7 @@ export class InspectorPanel {
   _renderTab() {
     const body = document.getElementById('inspector-body');
     if (!this.resource) {
-      body.innerHTML = '<div class="text-white/30 text-sm text-center mt-8">Select a resource to inspect</div>';
+      body.innerHTML = '<div class="text-white/30 text-sm text-center mt-8">확인할 리소스를 선택하세요</div>';
       return;
     }
 
@@ -166,7 +166,7 @@ export class InspectorPanel {
     let sections = `
       <div class="space-y-4">
         <div>
-          <div class="text-white/30 text-xs uppercase tracking-wider mb-2">Status</div>
+          <div class="text-white/30 text-xs uppercase tracking-wider mb-2">상태</div>
           <div class="flex items-center gap-2">
             <div class="w-2 h-2 rounded-full ${statusColor}"></div>
             <span class="text-white/80 text-sm">${r.status?.phase || r.status?.state || 'Active'}</span>
@@ -174,30 +174,30 @@ export class InspectorPanel {
         </div>
 
         <div>
-          <div class="text-white/30 text-xs uppercase tracking-wider mb-2">Metadata</div>
+          <div class="text-white/30 text-xs uppercase tracking-wider mb-2">메타데이터</div>
           <div class="space-y-1.5">
-            ${this._metaRow('Name', r.metadata?.name)}
+            ${this._metaRow('이름', r.metadata?.name)}
             ${this._metaRow('Namespace', r.metadata?.namespace || 'default')}
             ${this._metaRow('UID', r.metadata?.uid)}
-            ${this._metaRow('Created', this._formatTimestamp(r.metadata?.creationTimestamp))}
+            ${this._metaRow('생성', this._formatTimestamp(r.metadata?.creationTimestamp))}
           </div>
         </div>
 
         <div>
-          <div class="text-white/30 text-xs uppercase tracking-wider mb-2">Labels</div>
+          <div class="text-white/30 text-xs uppercase tracking-wider mb-2">레이블</div>
           <div class="flex flex-wrap gap-1">
             ${Object.entries(r.metadata?.labels || {}).map(([k, v]) =>
               `<span class="px-2 py-0.5 text-xs bg-white/5 border border-white/10 rounded text-white/60">${this._escapeHTML(k)}=${this._escapeHTML(v)}</span>`
-            ).join('') || '<span class="text-white/20 text-xs">No labels</span>'}
+            ).join('') || '<span class="text-white/20 text-xs">레이블 없음</span>'}
           </div>
         </div>
 
         <div>
-          <div class="text-white/30 text-xs uppercase tracking-wider mb-2">Annotations</div>
+          <div class="text-white/30 text-xs uppercase tracking-wider mb-2">어노테이션</div>
           <div class="space-y-1">
             ${Object.entries(r.metadata?.annotations || {}).map(([k, v]) =>
               `<div class="text-xs"><span class="text-white/40">${this._escapeHTML(k)}</span><span class="text-white/20">: </span><span class="text-white/60">${this._escapeHTML(v)}</span></div>`
-            ).join('') || '<span class="text-white/20 text-xs">No annotations</span>'}
+            ).join('') || '<span class="text-white/20 text-xs">어노테이션 없음</span>'}
           </div>
         </div>
     `;
@@ -220,24 +220,24 @@ export class InspectorPanel {
     const containers = r.spec?.containers || [{ name: 'main', image: 'unknown:latest' }];
     return `
       <div>
-        <div class="text-white/30 text-xs uppercase tracking-wider mb-2">Containers</div>
+        <div class="text-white/30 text-xs uppercase tracking-wider mb-2">컨테이너</div>
         <div class="space-y-2">
           ${containers.map(c => `
             <div class="p-2 bg-white/5 rounded-lg border border-white/5">
               <div class="text-white/80 text-xs font-medium">${this._escapeHTML(c.name)}</div>
               <div class="text-white/40 text-xs mt-0.5">${this._escapeHTML(c.image || 'unknown')}</div>
-              ${c.ports ? `<div class="text-white/30 text-xs mt-0.5">Ports: ${c.ports.map(p => p.containerPort).join(', ')}</div>` : ''}
+              ${c.ports ? `<div class="text-white/30 text-xs mt-0.5">포트: ${c.ports.map(p => p.containerPort).join(', ')}</div>` : ''}
             </div>
           `).join('')}
         </div>
       </div>
       <div>
-        <div class="text-white/30 text-xs uppercase tracking-wider mb-2">Pod Info</div>
+        <div class="text-white/30 text-xs uppercase tracking-wider mb-2">Pod 정보</div>
         <div class="space-y-1.5">
-          ${this._metaRow('Node', r.spec?.nodeName || 'unscheduled')}
+          ${this._metaRow('Node', r.spec?.nodeName || '미스케줄')}
           ${this._metaRow('IP', r.status?.podIP || 'pending')}
-          ${this._metaRow('Restarts', r.status?.restartCount || 0)}
-          ${this._metaRow('QoS Class', r.status?.qosClass || 'BestEffort')}
+          ${this._metaRow('재시작', r.status?.restartCount || 0)}
+          ${this._metaRow('QoS 클래스', r.status?.qosClass || 'BestEffort')}
         </div>
       </div>
     `;
@@ -246,12 +246,12 @@ export class InspectorPanel {
   _renderDeploymentDetails(r) {
     return `
       <div>
-        <div class="text-white/30 text-xs uppercase tracking-wider mb-2">Deployment Info</div>
+        <div class="text-white/30 text-xs uppercase tracking-wider mb-2">Deployment 정보</div>
         <div class="space-y-1.5">
-          ${this._metaRow('Replicas', `${r.status?.readyReplicas || 0}/${r.spec?.replicas || 0} ready`)}
-          ${this._metaRow('Strategy', r.spec?.strategy?.type || 'RollingUpdate')}
-          ${this._metaRow('Available', r.status?.availableReplicas || 0)}
-          ${this._metaRow('Updated', r.status?.updatedReplicas || 0)}
+          ${this._metaRow('Replica', `${r.status?.readyReplicas || 0}/${r.spec?.replicas || 0} 준비됨`)}
+          ${this._metaRow('전략', r.spec?.strategy?.type || 'RollingUpdate')}
+          ${this._metaRow('가용', r.status?.availableReplicas || 0)}
+          ${this._metaRow('업데이트됨', r.status?.updatedReplicas || 0)}
         </div>
       </div>
     `;
@@ -260,11 +260,11 @@ export class InspectorPanel {
   _renderServiceDetails(r) {
     return `
       <div>
-        <div class="text-white/30 text-xs uppercase tracking-wider mb-2">Service Info</div>
+        <div class="text-white/30 text-xs uppercase tracking-wider mb-2">Service 정보</div>
         <div class="space-y-1.5">
-          ${this._metaRow('Type', r.spec?.type || 'ClusterIP')}
+          ${this._metaRow('타입', r.spec?.type || 'ClusterIP')}
           ${this._metaRow('Cluster IP', r.spec?.clusterIP || '10.96.0.1')}
-          ${this._metaRow('Ports', (r.spec?.ports || []).map(p => `${p.port}/${p.protocol || 'TCP'}`).join(', ') || '<none>')}
+          ${this._metaRow('포트', (r.spec?.ports || []).map(p => `${p.port}/${p.protocol || 'TCP'}`).join(', ') || '<없음>')}
           ${this._metaRow('Selector', Object.entries(r.spec?.selector || {}).map(([k, v]) => `${k}=${v}`).join(', ') || '<none>')}
         </div>
       </div>
@@ -274,16 +274,16 @@ export class InspectorPanel {
   _renderNodeDetails(r) {
     return `
       <div>
-        <div class="text-white/30 text-xs uppercase tracking-wider mb-2">Node Info</div>
+        <div class="text-white/30 text-xs uppercase tracking-wider mb-2">Node 정보</div>
         <div class="space-y-1.5">
           ${this._metaRow('OS', r.status?.nodeInfo?.operatingSystem || 'linux')}
-          ${this._metaRow('Architecture', r.status?.nodeInfo?.architecture || 'amd64')}
+          ${this._metaRow('아키텍처', r.status?.nodeInfo?.architecture || 'amd64')}
           ${this._metaRow('Kubelet', r.status?.nodeInfo?.kubeletVersion || 'v1.29.0')}
-          ${this._metaRow('Container Runtime', r.status?.nodeInfo?.containerRuntimeVersion || 'containerd://1.7.0')}
+          ${this._metaRow('컨테이너 런타임', r.status?.nodeInfo?.containerRuntimeVersion || 'containerd://1.7.0')}
         </div>
       </div>
       <div>
-        <div class="text-white/30 text-xs uppercase tracking-wider mb-2">Capacity</div>
+        <div class="text-white/30 text-xs uppercase tracking-wider mb-2">용량</div>
         <div class="space-y-1.5">
           ${this._metaRow('CPU', r.status?.capacity?.cpu || '4 cores')}
           ${this._metaRow('Memory', r.status?.capacity?.memory || '16Gi')}
@@ -328,7 +328,7 @@ export class InspectorPanel {
   _renderEvents() {
     const events = this.resource._events || this._generateSampleEvents();
     if (events.length === 0) {
-      return '<div class="text-white/30 text-sm text-center mt-4">No events recorded</div>';
+      return '<div class="text-white/30 text-sm text-center mt-4">기록된 이벤트가 없습니다</div>';
     }
 
     return `
@@ -354,20 +354,20 @@ export class InspectorPanel {
 
     if (kind === 'Pod') {
       return [
-        { type: 'Normal', reason: 'Scheduled', message: `Successfully assigned default/${name} to node-1`, timestamp: this._timeAgo(now, 5) },
-        { type: 'Normal', reason: 'Pulling', message: `Pulling image "${this.resource.spec?.containers?.[0]?.image || 'nginx:latest'}"`, timestamp: this._timeAgo(now, 4) },
-        { type: 'Normal', reason: 'Pulled', message: 'Container image pulled successfully', timestamp: this._timeAgo(now, 3) },
-        { type: 'Normal', reason: 'Created', message: 'Created container main', timestamp: this._timeAgo(now, 2) },
-        { type: 'Normal', reason: 'Started', message: 'Started container main', timestamp: this._timeAgo(now, 1) },
+        { type: 'Normal', reason: 'Scheduled', message: `default/${name} Pod가 node-1에 성공적으로 배치되었습니다`, timestamp: this._timeAgo(now, 5) },
+        { type: 'Normal', reason: 'Pulling', message: `"${this.resource.spec?.containers?.[0]?.image || 'nginx:latest'}" 이미지를 가져오는 중`, timestamp: this._timeAgo(now, 4) },
+        { type: 'Normal', reason: 'Pulled', message: '컨테이너 이미지를 성공적으로 가져왔습니다', timestamp: this._timeAgo(now, 3) },
+        { type: 'Normal', reason: 'Created', message: 'main 컨테이너를 생성했습니다', timestamp: this._timeAgo(now, 2) },
+        { type: 'Normal', reason: 'Started', message: 'main 컨테이너를 시작했습니다', timestamp: this._timeAgo(now, 1) },
       ];
     }
     if (kind === 'Deployment') {
       return [
-        { type: 'Normal', reason: 'ScalingReplicaSet', message: `Scaled up replica set ${name}-7d6f4c8b to ${this.resource.spec?.replicas || 1}`, timestamp: this._timeAgo(now, 3) },
+        { type: 'Normal', reason: 'ScalingReplicaSet', message: `${name}-7d6f4c8b ReplicaSet을 ${this.resource.spec?.replicas || 1}개로 확장했습니다`, timestamp: this._timeAgo(now, 3) },
       ];
     }
     return [
-      { type: 'Normal', reason: 'Created', message: `${kind} ${name} created successfully`, timestamp: this._timeAgo(now, 2) },
+      { type: 'Normal', reason: 'Created', message: `${kind} ${name} 리소스가 생성되었습니다`, timestamp: this._timeAgo(now, 2) },
     ];
   }
 
@@ -457,12 +457,12 @@ export class InspectorPanel {
   }
 
   _formatTimestamp(ts) {
-    if (!ts) return 'Unknown';
+    if (!ts) return '알 수 없음';
     return new Date(ts).toLocaleString();
   }
 
   _timeAgo(now, minutesAgo) {
-    return `${minutesAgo}m ago`;
+    return `${minutesAgo}분 전`;
   }
 
   _escapeHTML(str) {

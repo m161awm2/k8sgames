@@ -75,9 +75,9 @@ export class CommandBar {
     return `
       <div class="backdrop-blur-xl bg-white/5 border-t border-white/10 shadow-2xl">
         <div class="flex items-center justify-between px-4 py-2 border-b border-white/5">
-          <span class="text-white/40 text-xs font-mono">Terminal</span>
+          <span class="text-white/40 text-xs font-mono">터미널</span>
           <div class="flex items-center gap-2">
-            <span class="text-white/20 text-xs">Press / to toggle</span>
+            <span class="text-white/20 text-xs">/ 키로 열고 닫기</span>
             <button id="cmd-close" class="text-white/30 hover:text-white/60 transition-colors">
               <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
@@ -89,7 +89,7 @@ export class CommandBar {
         <div class="relative px-4 py-3 border-t border-white/5">
           <div class="flex items-center gap-2">
             <span class="text-green-400 text-sm font-mono shrink-0">$ kubectl</span>
-            <input id="cmd-input" type="text" class="flex-1 bg-transparent text-white/90 text-sm font-mono outline-none placeholder:text-white/20" placeholder="enter command..." autocomplete="off" spellcheck="false" />
+            <input id="cmd-input" type="text" class="flex-1 bg-transparent text-white/90 text-sm font-mono outline-none placeholder:text-white/20" placeholder="명령어 입력..." autocomplete="off" spellcheck="false" />
           </div>
           <div id="cmd-suggestions" class="absolute bottom-full left-0 right-0 hidden"></div>
         </div>

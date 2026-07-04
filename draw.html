@@ -66,7 +66,7 @@
     </div>
     <div class="flex items-center gap-2 overflow-x-auto scrollbar-none">
       <span id="draw-status" class="text-xs text-sky-400 mr-2 draw-status-text"></span>
-      <button id="btn-connect" class="draw-btn shrink-0 px-3 py-1.5 text-xs text-white/60 hover:text-white bg-white/5 hover:bg-white/10 border border-white/10 rounded-lg transition-all" title="Draw a line between two resources: click source, then click target">
+      <button id="btn-connect" class="draw-btn shrink-0 px-3 py-1.5 text-xs text-white/60 hover:text-white bg-white/5 hover:bg-white/10 border border-white/10 rounded-lg transition-all" title="두 리소스 사이에 연결선을 그립니다. 시작 리소스와 대상 리소스를 차례로 클릭하세요">
         <svg class="w-4 h-4 inline mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1"/></svg><span class="draw-btn-label">연결선</span>
       </button>
       <button id="btn-auto-layout" class="draw-btn shrink-0 px-3 py-1.5 text-xs text-white/60 hover:text-white bg-white/5 hover:bg-white/10 border border-white/10 rounded-lg transition-all"><span class="draw-btn-label">자동 배치</span><span class="draw-btn-icon-only hidden"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"/></svg></span></button>
@@ -82,7 +82,7 @@
   </div>
 
   <div id="resource-palette" class="glass-dark">
-    <div class="palette-section-label">Workloads</div>
+    <div class="palette-section-label">Workload</div>
 
     <div class="palette-item" data-resource="Pod" draggable="true">
       <div class="palette-icon">
@@ -141,7 +141,7 @@
     </div>
 
     <div class="palette-separator"></div>
-    <div class="palette-section-label">Network</div>
+    <div class="palette-section-label">네트워크</div>
 
     <div class="palette-item" data-resource="Service" draggable="true">
       <div class="palette-icon">
@@ -168,7 +168,7 @@
     </div>
 
     <div class="palette-separator"></div>
-    <div class="palette-section-label">Config</div>
+    <div class="palette-section-label">설정</div>
 
     <div class="palette-item" data-resource="ConfigMap" draggable="true">
       <div class="palette-icon">
@@ -187,7 +187,7 @@
     </div>
 
     <div class="palette-separator"></div>
-    <div class="palette-section-label">Storage</div>
+    <div class="palette-section-label">스토리지</div>
 
     <div class="palette-item" data-resource="PersistentVolumeClaim" draggable="true">
       <div class="palette-icon">
@@ -198,7 +198,7 @@
     </div>
 
     <div class="palette-separator"></div>
-    <div class="palette-section-label">Cluster</div>
+    <div class="palette-section-label">클러스터</div>
 
     <div class="palette-item" data-resource="Node" draggable="true">
       <div class="palette-icon">
@@ -262,20 +262,20 @@
 
   <div id="draw-props" class="fixed right-0 top-12 z-30 backdrop-blur-xl bg-black/70 border-l border-white/10 overflow-y-auto transition-transform duration-300 translate-x-full" style="bottom:0;width:18rem;">
     <div class="flex items-center justify-between px-4 py-3 border-b border-white/10">
-      <span class="text-sm font-semibold text-white/90">Properties</span>
+      <span class="text-sm font-semibold text-white/90">속성</span>
       <button id="btn-close-props" class="text-white/40 hover:text-white/80 text-xs transition-colors">&#10005;</button>
     </div>
     <div id="props-body" class="p-4 space-y-4 text-xs">
-      <div class="text-white/30 text-center py-8">Select a resource to edit properties</div>
+      <div class="text-white/30 text-center py-8">속성을 편집할 리소스를 선택하세요</div>
     </div>
   </div>
 
   <div id="draw-help" class="fixed bottom-4 left-20 z-30 px-3 py-2 text-[10px] text-white/20 space-y-0.5">
-    <div>Drag resources from palette to canvas</div>
-    <div>Double-click resource to rename</div>
-    <div>Click <strong class="text-white/40">Draw Line</strong> then click two resources to link</div>
-    <div>Right-click resource to delete</div>
-    <div><kbd class="px-1 bg-white/5 rounded">Esc</kbd> cancel &middot; <kbd class="px-1 bg-white/5 rounded">Del</kbd> delete selected</div>
+    <div>팔레트에서 캔버스로 리소스를 드래그하세요</div>
+    <div>리소스를 더블클릭하면 이름을 바꿀 수 있습니다</div>
+    <div><strong class="text-white/40">연결선</strong>을 누른 뒤 리소스 두 개를 클릭해 연결하세요</div>
+    <div>리소스를 우클릭하면 삭제할 수 있습니다</div>
+    <div><kbd class="px-1 bg-white/5 rounded">Esc</kbd> 취소 &middot; <kbd class="px-1 bg-white/5 rounded">Del</kbd> 선택 항목 삭제</div>
   </div>
 
   <div id="draw-watermark" class="fixed bottom-4 left-1/2 -translate-x-1/2 z-30 flex items-center gap-2 text-[10px] text-white/15">
@@ -726,11 +726,11 @@
         body.innerHTML = `
           <div class="space-y-3">
             <div>
-              <label class="block text-white/40 mb-1">Kind</label>
+              <label class="block text-white/40 mb-1">종류</label>
               <div class="px-2 py-1.5 bg-white/5 border border-white/10 rounded text-white/70">${this._esc(resource.kind)}</div>
             </div>
             <div>
-              <label class="block text-white/40 mb-1">Name</label>
+              <label class="block text-white/40 mb-1">이름</label>
               <input id="prop-name" type="text" class="w-full px-2 py-1.5 bg-white/5 border border-white/10 rounded text-white/90 outline-none focus:border-sky-500/40 transition-colors" />
             </div>
             <div>
@@ -738,16 +738,16 @@
               <input id="prop-namespace" type="text" class="w-full px-2 py-1.5 bg-white/5 border border-white/10 rounded text-white/90 outline-none focus:border-sky-500/40 transition-colors" />
             </div>
             <div>
-              <label class="block text-white/40 mb-1">Labels <span class="text-white/20">(key=value per line)</span></label>
+              <label class="block text-white/40 mb-1">레이블 <span class="text-white/20">(한 줄에 key=value)</span></label>
               <textarea id="prop-labels" rows="3" class="w-full px-2 py-1.5 bg-white/5 border border-white/10 rounded text-white/90 outline-none focus:border-sky-500/40 transition-colors font-mono text-[11px] resize-none"></textarea>
             </div>
             ${resource.spec?.replicas !== undefined ? `
             <div>
-              <label class="block text-white/40 mb-1">Replicas</label>
+              <label class="block text-white/40 mb-1">Replica</label>
               <input id="prop-replicas" type="number" min="0" max="100" class="w-full px-2 py-1.5 bg-white/5 border border-white/10 rounded text-white/90 outline-none focus:border-sky-500/40 transition-colors" />
             </div>` : ''}
-            <button id="prop-apply" class="w-full px-3 py-2 text-xs font-medium text-white bg-sky-500/20 hover:bg-sky-500/30 border border-sky-500/30 rounded-lg transition-all">Apply Changes</button>
-            <button id="prop-delete" class="w-full px-3 py-2 text-xs font-medium text-red-400 bg-red-500/10 hover:bg-red-500/20 border border-red-500/20 rounded-lg transition-all">Delete Resource</button>
+            <button id="prop-apply" class="w-full px-3 py-2 text-xs font-medium text-white bg-sky-500/20 hover:bg-sky-500/30 border border-sky-500/30 rounded-lg transition-all">변경 적용</button>
+            <button id="prop-delete" class="w-full px-3 py-2 text-xs font-medium text-red-400 bg-red-500/10 hover:bg-red-500/20 border border-red-500/20 rounded-lg transition-all">리소스 삭제</button>
           </div>
         `;
 
